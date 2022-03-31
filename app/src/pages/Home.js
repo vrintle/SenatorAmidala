@@ -25,13 +25,13 @@ function App() {
     <div className='container'>
       <div className='row'>
         <div className='col-9'>
-          <h1>Foods Near You.</h1>
+          <h3>Foods Near You</h3>
           <div className='row'>
             {
               meals.map(meal => {
                 return (
-                  <div className='col-3'>
-                    <div className="card" style={{width: '18rem'}}>
+                  <div className='col my-1'>
+                    <div className="card my-1" style={{width: '18rem',height: '25rem'}}>
                       <img src={meal.image_src} className="card-img-top" alt="..." />
                       <div className="card-body">
                         <h5 className="card-title">{meal.name}</h5>
@@ -40,7 +40,7 @@ function App() {
                           Price: {meal.price}<br />
                           {meal.veg ? 'Veg' : 'Non-Veg'}<br />
                         </p>
-                        <a href="#" className="btn btn-primary">Add to Cart</a>
+                        <a href="/" className="btn btn-primary">Add to Cart</a>
                       </div>
                     </div>
                   </div>
