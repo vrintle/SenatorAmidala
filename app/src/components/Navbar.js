@@ -19,15 +19,15 @@ function Navbar() {
   }
 
   useEffect(() => {
-    setDisplayName(localStorage.getItem('display-name') || '');
-    setEmail(localStorage.getItem('email') || '');
-    setPfp(localStorage.getItem('pfp') || '');
+    setDisplayName(sessionStorage.getItem('display-name') || '');
+    setEmail(sessionStorage.getItem('email') || '');
+    setPfp(sessionStorage.getItem('pfp') || '');
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('display-name', displayName);
-    localStorage.setItem('email', email);
-    localStorage.setItem('pfp', pfp);
+    sessionStorage.setItem('display-name', displayName);
+    sessionStorage.setItem('email', email);
+    sessionStorage.setItem('pfp', pfp);
   });
 
   return (
@@ -65,12 +65,12 @@ function Navbar() {
             <div class="col-md-1.5">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0 me-6">
                 <li class="nav-item me-2">
-                  <a class="nav-link active" aria-current="page" href="/">
+                  <a class="nav-link active" aria-current="page" href="/about">
                     About
                   </a>
                 </li>
                 <li class="nav-item me-2">
-                  <a class="nav-link" href="/">
+                  <a class="nav-link" href="/drones">
                     Drones
                   </a>
 

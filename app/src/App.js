@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Order from './pages/Order';
+import Drones from './pages/Drones';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path='/about' element={<About />} />
         <Route exact path='/profile' element={<Profile />} />
         <Route exact path='/order' element={<Order />} />
+        <Route exact path='/drones' element={<Drones />} />
       </Routes>
     </Router>
   );
