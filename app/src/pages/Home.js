@@ -31,7 +31,7 @@ function App() {
               meals.map(meal => {
                 return (
                   <div className='col my-1'>
-                    <div className="card my-1" style={{width: '18rem',height: '25rem'}}>
+                    <div className="card my-1" style={{width: '16rem', height: '25rem'}}>
                       <img src={meal.image_src} className="card-img-top" alt="..." />
                       <div className="card-body">
                         <h5 className="card-title">{meal.name}</h5>
