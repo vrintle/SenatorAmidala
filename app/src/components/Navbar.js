@@ -1,6 +1,6 @@
 import GoogleLogin from 'react-google-login';
 import { signInWithGoogle } from '../firebase-config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Navbar() {
   const [displayName, setDisplayName] = useState('');
@@ -17,6 +17,18 @@ function Navbar() {
       console.log(error);
     })
   }
+
+  useEffect(() => {
+    setDisplayName(localStorage.getItem('display-name') || '');
+    setEmail(localStorage.getItem('email') || '');
+    setPfp(localStorage.getItem('pfp') || '');
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('display-name', displayName);
+    localStorage.setItem('email', email);
+    localStorage.setItem('pfp', pfp);
+  });
 
   return (
     <div>
@@ -45,7 +57,7 @@ function Navbar() {
                   placeholder="Search"
                   aria-label="Search"
                 />
-                <button class="btn btn-outline-primary" type="submit">
+                <button class="btn btn-outline-primary">
                   Search
                 </button>
               </form>
@@ -70,7 +82,7 @@ function Navbar() {
                     </button>
                   ) : (
                     <a href='/profile'>
-                      <img src={pfp} height='20' alt={displayName} title={email} />
+                      <img src={pfp} height='40' style={{borderRadius: '50%'}} alt={displayName} title={displayName} />
                     </a>
                   )
                 }
