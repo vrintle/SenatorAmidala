@@ -1,6 +1,23 @@
-import React from "react";
+import GoogleLogin from 'react-google-login';
+import { signInWithGoogle } from '../firebase-config';
+import { useState } from 'react';
 
 function Navbar() {
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [pfp, setPfp] = useState('');
+
+  const handleAuth = () => {
+    signInWithGoogle().then(result => {
+      setDisplayName(result.user.displayName);
+      setEmail(result.user.email);
+      setPfp(result.user.photoURL);
+      console.log(result.user);
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -46,9 +63,17 @@ function Navbar() {
                   </a>
 
                 </li>
-                <button class="btn btn-outline-primary me-2" type="submit">
-                  Sign In
-                </button>
+                {
+                  email.length == 0 ? (
+                    <button class="btn btn-outline-primary me-2" onClick={handleAuth}>
+                      Sign In
+                    </button>
+                  ) : (
+                    <a href='/profile'>
+                      <img src={pfp} height='20' alt={displayName} title={email} />
+                    </a>
+                  )
+                }
               </ul>
             </div>
 
