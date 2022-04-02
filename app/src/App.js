@@ -8,9 +8,11 @@ import About from './pages/About';
 import Profile from './pages/Profile';
 import Order from './pages/Order';
 import Drones from './pages/Drones';
+import Footer from './components/Footer';
 
 function App() {
   return (
+    <>
     <Router>
       <Navbar />
       <Routes>
@@ -21,6 +23,9 @@ function App() {
         <Route exact path='/drones' element={<Drones />} />
       </Routes>
     </Router>
+    <Footer/>
+    </>
+
   );
 }
 
