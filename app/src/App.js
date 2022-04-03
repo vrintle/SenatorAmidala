@@ -12,7 +12,6 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <>
     <Router>
       <Navbar />
       <Routes>
@@ -22,10 +21,8 @@ function App() {
         <Route exact path='/order' element={<Order />} />
         <Route exact path='/drones' element={<Drones />} />
       </Routes>
+      <Footer/>
     </Router>
-    <Footer/>
-    </>
-
   );
 }
 
