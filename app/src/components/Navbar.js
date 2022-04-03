@@ -66,7 +66,7 @@ function Navbar() {
             <div class="col-md-1.5">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0 me-6">
                 <li class="nav-item me-2">
-                  <a class="nav-link active " aria-current="page" href="/about">
+                  <a class="nav-link active" aria-current="page" href="/about">
                     About
                   </a>
                 </li>
