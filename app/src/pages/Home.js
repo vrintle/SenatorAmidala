@@ -6,12 +6,11 @@ function App() {
   const [meals, setMeals] = useState([])
   const [items, setItems] = useState([])
   const mealsRef = collection(database, 'meals')
-  const email = sessionStorage.getItem('email') || ''
   
   useEffect(() => {
     const getMeals = async () => {
       const data = await getDocs(mealsRef)
-      console.log(data, email)
+      console.log(data)
       setMeals(data.docs.map(doc => {
         return {
           ...doc.data(), 
@@ -21,10 +20,18 @@ function App() {
       console.log(meals);
     }
     getMeals()
+    let str = sessionStorage.getItem('items')
+    if(str) {
+      setItems(JSON.parse(str))
+      console.log(items)
+    }
   }, [])
 
+  useEffect(() => {
+    sessionStorage.setItem('items', JSON.stringify(items))
+  }, [items])
+
   const addItem = id => {
-    console.log(email)
     const check = items.filter(item => item.id == id);
     if(check.length == 0) {
       const res = meals.filter(meal => meal.id == id)[0];
@@ -87,7 +94,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-                        <button className="btn btn-primary my-2" style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={false} title={!email ? "You should be logged in first to add items." : null}>Add to Cart</button>
+                        <button className="btn btn-primary my-2" style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={false} title={true ? "You should be logged in first to add items." : null}>Add to Cart</button>
                       </div>
                     </div>
                   </div>
