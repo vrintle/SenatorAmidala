@@ -16,7 +16,7 @@ function App() {
     <div className='container'>
       <div className='row'>
         <h3>Hello, {displayName}!</h3>
-        <p>Email: {email}</p>
+        <p>Email: {email} </p>
       </div>
     </div>
   );

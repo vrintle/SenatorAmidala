@@ -9,6 +9,7 @@ function Navbar() {
 
   const handleAuth = () => {
     signInWithGoogle().then(result => {
+      
       setDisplayName(result.user.displayName);
       setEmail(result.user.email);
       setPfp(result.user.photoURL);
@@ -77,7 +78,7 @@ function Navbar() {
                 </li>
                 {
                   email.length == 0 ? (
-                    <button class="btn btn-outline-primary me-2" onClick={handleAuth}>
+                    <button class="btn btn-outline-primary me-2" onClick={handleAuth} >
                       Sign In
                     </button>
                   ) : (

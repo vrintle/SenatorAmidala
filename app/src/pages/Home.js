@@ -3,6 +3,7 @@ import { database } from '../firebase-config';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 
 function App() {
+
   const [meals, setMeals] = useState([])
   const [items, setItems] = useState([])
   const mealsRef = collection(database, 'meals')
@@ -87,7 +88,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-                        <button className="btn btn-primary my-2" style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={false} title={!email ? "You should be logged in first to add items." : null}>Add to Cart</button>
+                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={!email} >Add to Cart</button>
                       </div>
                     </div>
                   </div>
