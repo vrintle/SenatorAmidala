@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../firebase-config';
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
   const [meals, setMeals] = useState([])
@@ -32,9 +32,9 @@ function App() {
   }, [items])
 
   const addItem = id => {
-    const check = items.filter(item => item.id == id);
+    const check = items.filter(item => item.id === id);
     if(check.length == 0) {
-      const res = meals.filter(meal => meal.id == id)[0];
+      const res = meals.filter(meal => meal.id === id)[0];
       const item = {
         ...res,
         qty: 1
@@ -45,7 +45,7 @@ function App() {
       console.log(items);
     } else {
       for(let i = 0; i < items.length; i++) {
-        if(items[i].id == id) {
+        if(items[i].id === id) {
           items[i].qty++;
         }
       }
@@ -55,16 +55,16 @@ function App() {
 
   const incQty = id => {
     for(let i = 0; i < items.length; i++) {
-      if(items[i].id == id) items[i].qty++;
+      if(items[i].id === id) items[i].qty++;
     }
     setItems([ ...items ]);
   }
 
   const decQty = id => {
     for(let i = 0; i < items.length; i++) {
-      if(items[i].id == id) {
+      if(items[i].id === id) {
         if(items[i].qty > 0) items[i].qty--;
-        if(items[i].qty == 0) {
+        if(items[i].qty === 0) {
           items.splice(i, 1);
         }
       }
