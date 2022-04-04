@@ -80,7 +80,7 @@ function App() {
               <div className="col-7 ">
                 <div
                   className="container text-lame my-2 "
-                  style={{ marginLeft: "200px" }}
+                  style={{ textAlign: "center" }}
                 >
                   <h1>{drone.name}</h1>
                 </div>
@@ -92,7 +92,7 @@ function App() {
                     <span>Range : {drone.range}</span>
                     <br />
 
-                    <span>Power System : {drone.powerSystem}</span>
+                    <span>Power System : {drone.power}</span>
                     <br />
 
                     <span>Application : {drone.application} </span>
