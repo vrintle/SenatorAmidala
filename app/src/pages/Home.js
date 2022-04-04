@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { database } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
 import { LoginContext } from '../contexts/LoginContext';
+import { ItemsContext } from '../contexts/ItemsContext';
 
 function App() {
   const [meals, setMeals] = useState([])
-  const [items, setItems] = useState([])
   const mealsRef = collection(database, 'meals')
-  const { email } = useContext(LoginContext)
+  const { logged } = useContext(LoginContext)
+  const { items, setItems } = useContext(ItemsContext)
   
   useEffect(() => {
     const getMeals = async () => {
@@ -80,6 +81,7 @@ function App() {
       <div className='row'>
         <div className='col-9'>
           <h3>Foods Near You</h3>
+          <br />
           <div className='row'>
             {
               meals.map(meal => {
@@ -96,7 +98,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={ !email } title={ email ? "" : "You need to sign in first." } >Add to Cart</button>
+                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={ !logged } title={ logged ? "" : "You need to sign in first." } >Add to Cart</button>
                       </div>
                     </div>
                   </div>
@@ -107,6 +109,7 @@ function App() {
         </div>
         <div className='col-3'>
           <h3>Your Cart</h3>
+          <br />
           {
             items.length == 0 ? (
               <p><i>Add some tasty food to your cart...</i></p>
@@ -126,15 +129,19 @@ function App() {
                             <span style={{margin: '20px'}}>{item.qty}</span>
                             <button class="btn btn-outline-info btn-sm" onClick={() => decQty(item.id)}>-</button>
                           </p>
-                          <p>Total amount: {item.price * item.qty} Rs.</p>
+                          <p>Subtotal: {item.price * item.qty} Rs.</p>
                         </div>
                         <hr />
                       </div>
                     )
                   })
                 }
+                <br />
                 <div style={{textAlign: 'center'}}>
-                  <button type="button" class="btn btn-primary" style={{paddingLeft: '36px', paddingRight: '36px'}}>Checkout</button>
+                  <h5>Total Amount: { items.reduce((sum, curr) => {
+                    return sum + curr.price * curr.qty;
+                  }, 0) }</h5>
+                  <a href='/checkout' class="btn btn-primary" style={{paddingLeft: '36px', paddingRight: '36px'}}>Checkout</a>
                 </div>
               </div>
             )

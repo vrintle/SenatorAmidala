@@ -1,11 +1,11 @@
 import React from 'react';
 
-function App() {
+function Checkout() {
   return (
     <div>
-      OrderPage!
+      CheckoutPage!
     </div>
   );
 }
 
-export default App;
+export default Checkout;

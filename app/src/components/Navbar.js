@@ -4,12 +4,13 @@ import GoogleLogin from 'react-google-login';
 import { signInWithGoogle } from '../firebase-config';
 
 function Navbar() {
-  const { displayName, setDisplayName, email, setEmail, pfp, setPfp } = useContext(LoginContext);
+  const { displayName, setDisplayName, email, setEmail, pfp, setPfp, logged, setLogged } = useContext(LoginContext);
   const handleAuth = () => {
     signInWithGoogle().then(result => {
       setDisplayName(result.user.displayName);
       setEmail(result.user.email);
       setPfp(result.user.photoURL);
+      setLogged(true);
       console.log(result.user);
     }).catch(error => {
       console.log(error);
@@ -20,12 +21,14 @@ function Navbar() {
     setDisplayName(sessionStorage.getItem('display-name') || '');
     setEmail(sessionStorage.getItem('email') || '');
     setPfp(sessionStorage.getItem('pfp') || '');
+    setLogged(sessionStorage.getItem('logged') || '');
   }, []);
 
   useEffect(() => {
     sessionStorage.setItem('display-name', displayName);
     sessionStorage.setItem('email', email);
     sessionStorage.setItem('pfp', pfp);
+    sessionStorage.setItem('logged', logged);
   });
 
   return (
