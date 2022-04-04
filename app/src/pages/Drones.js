@@ -89,23 +89,23 @@ function App() {
                 </div>
                 <div className="row mx-4">
                   <div className="col-6">
-                    <span>Range : {drone.range}</span>
+                    <span>Range: {drone.range}</span>
                     <br />
 
-                    <span>Power System : {drone.power}</span>
+                    <span>Power System: {drone.power}</span>
                     <br />
 
-                    <span>Application : {drone.application} </span>
+                    <span>Application: {drone.application} </span>
                     <br />
                   </div>
                   <div className="col-6">
-                    <span>Payload Capacity : {drone.payload}</span>
+                    <span>Payload Capacity: {drone.payload}</span>
                     <br />
 
-                    <span>Swarm : {drone.swarm}</span>
+                    <span>Swarm: {drone.swarm}</span>
                     <br />
 
-                    <span>Endurance : {drone.endurance}</span>
+                    <span>Endurance: {drone.endurance}</span>
                     <br />
                   </div>
                 </div>

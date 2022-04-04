@@ -21,7 +21,7 @@ function Navbar() {
     setDisplayName(sessionStorage.getItem('display-name') || '');
     setEmail(sessionStorage.getItem('email') || '');
     setPfp(sessionStorage.getItem('pfp') || '');
-    setLogged(sessionStorage.getItem('logged') || '');
+    setLogged(sessionStorage.getItem('logged') || 0);
   }, []);
 
   useEffect(() => {

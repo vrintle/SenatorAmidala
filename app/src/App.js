@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className='App'>
-      <LoginContext.Provider value={{ displayName, setDisplayName, email, setEmail, pfp, setPfp, logged, setLogged }}>
+      <LoginContext.Provider value={{ displayName, setDisplayName, email, setEmail, pfp, setPfp, logged, setLogged, items, setItems }}>
         <ItemsContext.Provider value={{ items, setItems }}>
           <Router>
             <Navbar />
