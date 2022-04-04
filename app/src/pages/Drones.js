@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { database } from "../firebase-config";
-import {
-  collection,
-  getDocs,
- 
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 function App() {
   const [drones, setdrones] = useState([]);
@@ -58,59 +54,67 @@ function App() {
   };
   return (
     <div className="container">
-      <div className="container my-4 text-center bg-dark text-light"> 
-      <h1>Drones Available For Service</h1>
+      <div className="jumbotron jumbotron-fluid text-center my-4">
+        <h1>Drones Available For Service</h1>
       </div>
 
       {drones.map((drone) => {
-        return (<> 
-        <div className="row bg-dark text-light" style={{height:"350px"}}>
-          <div className="col-5">
-            <img src={drone.img_src}  alt="..."/>
-          </div>
-          <div className="col-4">
-            <div className="container text-primary my-2">
-            <h1>{drone.name} Specs</h1>
-            
+        return (
+          <>
+            <div className="row" style={{ height: "320px" }}>
+              <div
+                className="col-5"
+                style={{
+                  height: "320px",
+                  backgroundColor: "#ebebeb",
+                  textAlign: "center",
+                  marginTop:"25px"
+                }}
+              >
+                <img
+                  src={drone.img_src}
+                  alt="..."
+                  style={{ height: "70%", textAlign: "center" ,paddingTop:"30px"}}
+                />
+              </div>
+              <div className="col-7 ">
+                <div
+                  className="container text-lame my-2 "
+                  style={{ marginLeft: "200px" }}
+                >
+                  <h1>{drone.name}</h1>
+                </div>
+                <div className="container text-center my-4">
+                  <p>{drone.desc}</p>
+                </div>
+                <div className="row mx-4">
+                  <div className="col-6">
+                    <span>Range : {drone.range}</span>
+                    <br />
+
+                    <span>Power System : {drone.powerSystem}</span>
+                    <br />
+
+                    <span>Application : {drone.application} </span>
+                    <br />
+                  </div>
+                  <div className="col-6">
+                    <span>Payload Capacity : {drone.payload}</span>
+                    <br />
+
+                    <span>Swarm : {drone.swarm}</span>
+                    <br />
+
+                    <span>Endurance : {drone.endurance}</span>
+                    <br />
+                  </div>
+                </div>
+              </div>
             </div>
-            <li>
-              <span>Range</span>
-              <br />
-              <span>{drone.range}</span>
-            </li>
-            <li>
-              <span>Power System</span>
-              <br />
-              <span >{drone.power}</span>
-            </li>
-            <li>
-              <span>Application</span>
-              <br />
-              <span>{drone.application}</span>
-            </li>
-          </div>
-          <div className="col-3 my-5">
-            <li>
-              <span>Payload Capacity</span>
-              <br />
-              <span>{drone.payload}</span>
-            </li>
-            <li>
-              <span>Swarm</span>
-              <br />
-              <span>{drone.swarm}</span>
-            </li>
-            <li>
-              <span>Endurance</span>
-              <br />
-              <span>{drone.endurance}</span>
-            </li>
-            </div>
-        </div>
-        <br />
-        <br/>
-        </>
-        )
+            <br />
+            <br />
+          </>
+        );
       })}
     </div>
   );
