@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../firebase-config';
-import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
 
@@ -33,9 +33,9 @@ function App() {
   }, [items])
 
   const addItem = id => {
-    const check = items.filter(item => item.id == id);
+    const check = items.filter(item => item.id === id);
     if(check.length == 0) {
-      const res = meals.filter(meal => meal.id == id)[0];
+      const res = meals.filter(meal => meal.id === id)[0];
       const item = {
         ...res,
         qty: 1
@@ -46,7 +46,7 @@ function App() {
       console.log(items);
     } else {
       for(let i = 0; i < items.length; i++) {
-        if(items[i].id == id) {
+        if(items[i].id === id) {
           items[i].qty++;
         }
       }
@@ -56,16 +56,16 @@ function App() {
 
   const incQty = id => {
     for(let i = 0; i < items.length; i++) {
-      if(items[i].id == id) items[i].qty++;
+      if(items[i].id === id) items[i].qty++;
     }
     setItems([ ...items ]);
   }
 
   const decQty = id => {
     for(let i = 0; i < items.length; i++) {
-      if(items[i].id == id) {
+      if(items[i].id === id) {
         if(items[i].qty > 0) items[i].qty--;
-        if(items[i].qty == 0) {
+        if(items[i].qty === 0) {
           items.splice(i, 1);
         }
       }
@@ -95,11 +95,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-<<<<<<< HEAD
-                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={!email} >Add to Cart</button>
-=======
                         <button className="btn btn-primary my-2" style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={false} title={true ? "You should be logged in first to add items." : null}>Add to Cart</button>
->>>>>>> c6872ac0f2bc5ca43274bf9971be7c6a90e3e45e
                       </div>
                     </div>
                   </div>
