@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route}
@@ -9,20 +9,29 @@ import Profile from './pages/Profile';
 import Order from './pages/Order';
 import Drones from './pages/Drones';
 import Footer from './components/Footer';
+import { LoginContext } from './contexts/LoginContext';
 
 function App() {
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [pfp, setPfp] = useState('');
+
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route exact path='/about' element={<About />} />
-        <Route exact path='/profile' element={<Profile />} />
-        <Route exact path='/order' element={<Order />} />
-        <Route exact path='/drones' element={<Drones />} />
-      </Routes>
-      <Footer/>
-    </Router>
+    <div className='App'>
+      <LoginContext.Provider value={{ displayName, setDisplayName, email, setEmail, pfp, setPfp }}>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/about' element={<About />} />
+            <Route exact path='/profile' element={<Profile />} />
+            <Route exact path='/order' element={<Order />} />
+            <Route exact path='/drones' element={<Drones />} />
+          </Routes>
+          <Footer/>
+        </Router>
+      </LoginContext.Provider>
+    </div>
   );
 }
 

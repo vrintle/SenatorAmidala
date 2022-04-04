@@ -1,15 +1,12 @@
+import { useEffect, useState, useContext } from 'react';
+import { LoginContext } from '../contexts/LoginContext';
 import GoogleLogin from 'react-google-login';
 import { signInWithGoogle } from '../firebase-config';
-import { useEffect, useState } from 'react';
 
 function Navbar() {
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
-  const [pfp, setPfp] = useState('');
-
+  const { displayName, setDisplayName, email, setEmail, pfp, setPfp } = useContext(LoginContext);
   const handleAuth = () => {
     signInWithGoogle().then(result => {
-      
       setDisplayName(result.user.displayName);
       setEmail(result.user.email);
       setPfp(result.user.photoURL);

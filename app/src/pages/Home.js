@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { database } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
+import { LoginContext } from '../contexts/LoginContext';
 
 function App() {
   const [meals, setMeals] = useState([])
   const [items, setItems] = useState([])
   const mealsRef = collection(database, 'meals')
+  const { email } = useContext(LoginContext)
   
   useEffect(() => {
     const getMeals = async () => {
@@ -94,7 +96,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={false} >Add to Cart</button>
+                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={ !email } title={ email ? "" : "You need to sign in first." } >Add to Cart</button>
                       </div>
                     </div>
                   </div>
