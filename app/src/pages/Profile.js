@@ -1,5 +1,7 @@
+import { doc, setDoc } from 'firebase/firestore';
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { database } from '../firebase-config';
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -9,6 +11,19 @@ function App() {
     }
     return {};
   })
+  const [type, setType] = useState('')
+  const [desc, setDesc] = useState('')
+
+  const addAddr = async () => {
+    let addrRef = doc(database, 'address', user.uid + type);
+    await setDoc(addrRef, {
+      type: type,
+      desc: desc,
+      uid: user.uid
+    })
+    setType('')
+    setDesc('')
+  }
 
   return (
     <div className='container'>
@@ -33,7 +48,28 @@ function App() {
         </div>
         <div className='col-8'>
           <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+              <h4 className='row'>
+                <div className='col-9'>Add a new Address</div>
+                <div className='col-3'>
+                  <button class="btn btn-primary" type="button" onClick={addAddr} disabled={!type || !desc}>Add address</button>
+                </div>
+              </h4>
+              <br />
+              <div className='row'>
+                <div className='col-2'>
+                  <select class="form-select" aria-label="Default select example" value={type} onChange={ evt => setType(evt.target.value) }>
+                    <option selected value="">Type</option>
+                    <option value="home">Home</option>
+                    <option value="work">Work</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div className='col-10'>
+                <input type="text" value={desc} onChange={ evt => setDesc(evt.target.value) } class="form-control" placeholder="address description" />
+                </div>
+              </div>
+            </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
           </div>          
         </div>

@@ -2,11 +2,14 @@ import { useEffect, useState, useContext } from 'react';
 import { LoginContext } from '../contexts/LoginContext';
 import GoogleLogin from 'react-google-login';
 import { database, signInWithGoogle } from '../firebase-config';
-import { collection, setDoc, doc } from 'firebase/firestore';
+import { collection, setDoc, doc, getDocs, getDoc } from 'firebase/firestore';
+import { AddressesContext } from '../contexts/AddressesContext';
 
 function Navbar() {
   const usersRef = collection(database, 'users')
+  const addressRef = collection(database, 'address')
   const { user, setUser } = useContext(LoginContext);
+  const { addresses, setAddresses } = useContext(AddressesContext)
 
   const handleAuth = () => {
     signInWithGoogle().then(async (result) => {
@@ -15,15 +18,32 @@ function Navbar() {
       console.log('data:', database, result.user, user);
       let userRef = doc(database, 'users', result.user.uid);
       console.log('hi', userRef, user)
-      setDoc(userRef, {
+      await setDoc(userRef, {
         displayName: result.user.displayName,
         email: result.user.email,
         photoURL: result.user.photoURL,
         uid: result.user.uid
-      });
+      })
+      getAddresses(result.user.uid)
     }).catch(error => {
       console.log(error);
     })
+  }
+
+  const getAddresses = async uid => {
+    console.log(uid)
+    let home = await getDoc(doc(database, 'address', uid + 'home'));
+    console.log(home.data())
+    // setAddresses([ ...addresses, home.data() ])
+    if(home.data()) addresses.push(home.data())
+    let work = await getDoc(doc(database, 'address', uid + 'work'));
+    // setAddresses([ ...addresses, work.data() ])
+    if(work.data()) addresses.push(work.data())
+    let other = await getDoc(doc(database, 'address', uid + 'other'));
+    // setAddresses([ ...addresses, other.data() ])
+    if(other.data()) addresses.push(other.data())
+    setAddresses([...addresses])
+    console.log(addresses)
   }
 
   useEffect(() => {
