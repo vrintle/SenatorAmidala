@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from "react";
+import { AddressesContext } from "../contexts/AddressesContext";
 import { ItemsContext } from "../contexts/ItemsContext";
 
 function Checkout() {
   const { items, setItems } = useContext(ItemsContext);
+  const { addresses, setAddresses } = useContext(AddressesContext)
 
   const incQty = (id) => {
     for (let i = 0; i < items.length; i++) {
@@ -28,11 +30,12 @@ function Checkout() {
     if (str) {
       setItems(JSON.parse(str));
     }
+    let addr = sessionStorage.getItem('addresses')
+    if(addr) {
+      setAddresses(JSON.parse(addr))
+    }
+    console.log(addresses)
   }, []);
-
-  useEffect(() => {
-    sessionStorage.setItem("items", JSON.stringify(items));
-  });
 
   return (
     <div className="container">
@@ -40,22 +43,28 @@ function Checkout() {
       <br />
       <div className="row">
         <div className="col-9">
-          <div className="container" style={{ marginLeft: "-315px" }}>
+          <div className="container">
             <h1>Choose a delivery address</h1>
           </div>
-
+          <br />
           <div className="row">
-            <div className="col">
-              <div className="card" style={{ width: "18rem" }}>
-                <div className="card-body">
-                  <h5 className="card-title">WORK</h5>
-                  <p className="card-text"></p>
-                  <a href="/" className="btn btn-primary">
-                    Deliver Here
-                  </a>
-                </div>
-              </div>
-            </div>
+            {
+              addresses.map(addr => {
+                return (
+                  <div className="col-6">
+                    <div className="card" style={{ width: "18rem" }}>
+                      <div className="card-body">
+                        <h5 className="card-title">{addr.type}</h5>
+                        <p className="card-text">{addr.desc}</p>
+                        <button className="btn btn-primary">
+                          Deliver Here
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            }
           </div>
           <br />
         </div>

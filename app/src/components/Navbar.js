@@ -44,6 +44,7 @@ function Navbar() {
     if(other.data()) addresses.push(other.data())
     setAddresses([...addresses])
     console.log(addresses)
+    sessionStorage.setItem('addresses', JSON.stringify(addresses))
   }
 
   useEffect(() => {
@@ -57,7 +58,7 @@ function Navbar() {
 
   useEffect(() => {
     sessionStorage.setItem('user', JSON.stringify(user))
-  });
+  }, [user]);
 
   return (
     <div>

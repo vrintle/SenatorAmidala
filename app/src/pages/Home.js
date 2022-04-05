@@ -3,12 +3,14 @@ import { database } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
 import { LoginContext } from '../contexts/LoginContext';
 import { ItemsContext } from '../contexts/ItemsContext';
+import { AddressesContext } from '../contexts/AddressesContext';
 
 function App() {
   const [meals, setMeals] = useState([])
   const mealsRef = collection(database, 'meals')
   const { user } = useContext(LoginContext)
   const { items, setItems } = useContext(ItemsContext)
+  const { addresses, setAddresses } = useContext(AddressesContext)
   
   useEffect(() => {
     const getMeals = async () => {
@@ -33,6 +35,11 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem('items', JSON.stringify(items))
   }, [items])
+
+  useEffect(() => {
+    sessionStorage.setItem('addresses', JSON.stringify(addresses))
+    console.log('saved')
+  }, [addresses]);
 
   const addItem = id => {
     const check = items.filter(item => item.id === id);
