@@ -7,7 +7,7 @@ import { ItemsContext } from '../contexts/ItemsContext';
 function App() {
   const [meals, setMeals] = useState([])
   const mealsRef = collection(database, 'meals')
-  const { logged } = useContext(LoginContext)
+  const { user } = useContext(LoginContext)
   const { items, setItems } = useContext(ItemsContext)
   
   useEffect(() => {
@@ -98,7 +98,7 @@ function App() {
                         </p>
                       </div>
                       <div style={{ marginLeft:'17px',marginBottom:'10px'}}>
-                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={ !logged } title={ logged ? "" : "You need to sign in first." } >Add to Cart</button>
+                        <button className="btn btn-primary my-2"  style={{ textAlign: 'center',padding: '7px 22px', pointerEvents: 'auto'}} onClick={() => addItem(meal.id)} disabled={ !user.uid } title={ user.uid ? "" : "You need to sign in first." } >Add to Cart</button>
                       </div>
                     </div>
                   </div>

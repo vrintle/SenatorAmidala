@@ -11,18 +11,18 @@ import Footer from './components/Footer';
 import { LoginContext } from './contexts/LoginContext';
 import Checkout from './pages/Checkout';
 import { ItemsContext } from './contexts/ItemsContext';
+import { AddressesContext } from './contexts/AddressesContext';
 
 function App() {
-  const [displayName, setDisplayName] = useState('');
-  const [email, setEmail] = useState('');
-  const [pfp, setPfp] = useState('');
-  const [logged, setLogged] = useState(false)
+  const [user, setUser] = useState({})
   const [items, setItems] = useState([])
+  const [addresses, setAddresses] = useState([])
 
   return (
     <div className='App'>
-      <LoginContext.Provider value={{ displayName, setDisplayName, email, setEmail, pfp, setPfp, logged, setLogged, items, setItems }}>
+      <LoginContext.Provider value={{ user, setUser, items, setItems }}>
         <ItemsContext.Provider value={{ items, setItems }}>
+          <AddressesContext.Provider value={{ addresses, setAddresses }}>
           <Router>
             <Navbar />
             <Routes>
@@ -34,6 +34,7 @@ function App() {
             </Routes>
             <Footer/>
           </Router>
+          </AddressesContext.Provider>
         </ItemsContext.Provider>
       </LoginContext.Provider>
     </div>

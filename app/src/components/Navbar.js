@@ -1,34 +1,42 @@
 import { useEffect, useState, useContext } from 'react';
 import { LoginContext } from '../contexts/LoginContext';
 import GoogleLogin from 'react-google-login';
-import { signInWithGoogle } from '../firebase-config';
+import { database, signInWithGoogle } from '../firebase-config';
+import { collection, setDoc, doc } from 'firebase/firestore';
 
 function Navbar() {
-  const { displayName, setDisplayName, email, setEmail, pfp, setPfp, logged, setLogged } = useContext(LoginContext);
+  const usersRef = collection(database, 'users')
+  const { user, setUser } = useContext(LoginContext);
+
   const handleAuth = () => {
-    signInWithGoogle().then(result => {
-      setDisplayName(result.user.displayName);
-      setEmail(result.user.email);
-      setPfp(result.user.photoURL);
-      setLogged(true);
-      console.log(result.user);
+    signInWithGoogle().then(async (result) => {
+      setUser(result.user);
+      // console.log(result.user);
+      console.log('data:', database, result.user, user);
+      let userRef = doc(database, 'users', result.user.uid);
+      console.log('hi', userRef, user)
+      setDoc(userRef, {
+        displayName: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+        uid: result.user.uid
+      });
     }).catch(error => {
       console.log(error);
     })
   }
 
   useEffect(() => {
-    setDisplayName(sessionStorage.getItem('display-name') || '');
-    setEmail(sessionStorage.getItem('email') || '');
-    setPfp(sessionStorage.getItem('pfp') || '');
-    setLogged(sessionStorage.getItem('logged') || 0);
+    let str = sessionStorage.getItem('user');
+    if(str) {
+      setUser(JSON.parse(str));
+    } else {
+      setUser({});
+    }
   }, []);
 
   useEffect(() => {
-    sessionStorage.setItem('display-name', displayName);
-    sessionStorage.setItem('email', email);
-    sessionStorage.setItem('pfp', pfp);
-    sessionStorage.setItem('logged', logged);
+    sessionStorage.setItem('user', JSON.stringify(user))
   });
 
   return (
@@ -77,14 +85,14 @@ function Navbar() {
 
                 </li>
                 {
-                  email.length == 0 ? (
+                  'email' in user ? (
+                    <a href='/profile'>
+                      <img src={user.photoURL} height='40' style={{borderRadius: '50%'}} alt={user.displayName} title={user.displayName} />
+                    </a>
+                  ) : (
                     <button class="btn btn-outline-primary me-2" onClick={handleAuth} >
                       Sign In
                     </button>
-                  ) : (
-                    <a href='/profile'>
-                      <img src={pfp} height='40' style={{borderRadius: '50%'}} alt={displayName} title={displayName} />
-                    </a>
                   )
                 }
               </ul>
