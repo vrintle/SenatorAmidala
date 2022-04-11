@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { AddressesContext } from "../contexts/AddressesContext";
 import { ItemsContext } from "../contexts/ItemsContext";
+import { LoginContext } from "../contexts/LoginContext";
 
 function Checkout() {
+  const { user, setUser } = useContext(LoginContext);
   const { items, setItems } = useContext(ItemsContext);
   const { addresses, setAddresses } = useContext(AddressesContext)
 
@@ -38,6 +40,7 @@ function Checkout() {
   }, []);
 
   return (
+    'email' in user ?
     <div className="container">
       <br />
       <br />
@@ -125,7 +128,7 @@ function Checkout() {
           )}
         </div>
       </div>
-    </div>
+    </div> : <></>
   );
 }
 

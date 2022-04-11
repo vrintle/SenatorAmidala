@@ -54,6 +54,7 @@ function Navbar() {
     } else {
       setUser({});
     }
+    // getAddresses(user.uid)
   }, []);
 
   useEffect(() => {

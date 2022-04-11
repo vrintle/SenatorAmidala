@@ -1,6 +1,7 @@
 import { doc, setDoc } from 'firebase/firestore';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect, useState } from 'react';
+import { AddressesContext } from '../contexts/AddressesContext';
 import { database } from '../firebase-config';
 
 function App() {
@@ -13,19 +14,32 @@ function App() {
   })
   const [type, setType] = useState('')
   const [desc, setDesc] = useState('')
+  const { addresses, setAddresses } = useContext(AddressesContext);
 
   const addAddr = async () => {
     let addrRef = doc(database, 'address', user.uid + type);
-    await setDoc(addrRef, {
+    let addr = {
       type: type,
       desc: desc,
       uid: user.uid
-    })
+    };
+    await setDoc(addrRef, addr)
+    let newAddr = [ ...addresses, addr ]
+    setAddresses(newAddr)
+    sessionStorage.setItem('addresses', JSON.stringify(newAddr));
     setType('')
     setDesc('')
   }
 
+  useEffect(() => {
+    let str = sessionStorage.getItem('addresses')
+    if(str) {
+      setAddresses(JSON.parse(str))
+    }
+  }, [])
+
   return (
+    'email' in user ?
     <div className='container'>
       <br />
       <br />
@@ -41,8 +55,8 @@ function App() {
           <br />
           <div>
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Past Orders</button>
-              <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">My Addresses</button>
+              <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">My Addresses</button>
+              <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Past Orders</button>
             </div>
           </div>
         </div>
@@ -70,11 +84,25 @@ function App() {
                 </div>
               </div>
             </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+            <hr />
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+              {
+                addresses.map(addr => {
+                  return (
+                    <div>
+                      <p>
+                        <span className='badge bg-secondary'>{ addr.type }</span>
+                        { addr.desc }
+                      </p>
+                    </div>
+                  )
+                })
+              }
+            </div>
           </div>          
         </div>
       </div>
-    </div>
+    </div> : <></>
   );
 }
 

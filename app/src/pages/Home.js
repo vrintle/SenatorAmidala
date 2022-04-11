@@ -37,8 +37,11 @@ function App() {
   }, [items])
 
   useEffect(() => {
-    sessionStorage.setItem('addresses', JSON.stringify(addresses))
-    console.log('saved')
+    let addr = sessionStorage.getItem('addresses')
+    if(addr) {
+      setAddresses(JSON.parse(addr))
+    }
+    console.log(addresses)
   }, [addresses]);
 
   const addItem = id => {
