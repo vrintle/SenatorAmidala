@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { LoginContext } from '../contexts/LoginContext';
 import GoogleLogin from 'react-google-login';
 import { database, signInWithGoogle } from '../firebase-config';
-import { collection, setDoc, doc, getDocs, getDoc } from 'firebase/firestore';
+import { collection, setDoc, doc, getDocs, getDoc, query, where } from 'firebase/firestore';
 import { AddressesContext } from '../contexts/AddressesContext';
 
 function Navbar() {
@@ -10,6 +10,7 @@ function Navbar() {
   const addressRef = collection(database, 'address')
   const { user, setUser } = useContext(LoginContext);
   const { addresses, setAddresses } = useContext(AddressesContext)
+  const [ orders, setOrders ] = useState([])
 
   const handleAuth = () => {
     signInWithGoogle().then(async (result) => {
@@ -25,9 +26,24 @@ function Navbar() {
         uid: result.user.uid
       })
       getAddresses(result.user.uid)
+      getOrders(result.user.uid)
     }).catch(error => {
       console.log(error);
     })
+  }
+
+  const getOrders = async uid => {
+    let orderRef = collection(database, 'orders')
+    const q = query(orderRef, where("uid", '==', uid))
+    console.log('query', q)
+    const querySnapshot = await getDocs(q)
+    let arr = [];
+    querySnapshot.forEach(doc => {
+      console.log('doc', doc.data())
+      arr.push(doc.data())
+      setOrders([ ...orders, doc.data() ])
+    })
+    sessionStorage.setItem('orders', JSON.stringify(arr))
   }
 
   const getAddresses = async uid => {

@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="footer footer-expand-lg footer-dark bg-dark " style={{height:"300px"}}>
+    <footer className="footer footer-expand-lg footer-dark bg-dark " style={{height:"300px", position: "relative", bottom: '0', width: '100%'}}>
       <div className="row my-3 mx-3">
         <div className="col md-4 ">
           <h3 className="text-light container my-3">Get To Know Us</h3>
