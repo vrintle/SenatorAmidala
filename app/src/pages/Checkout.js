@@ -69,7 +69,7 @@ function Checkout() {
       <br />
       <br />
       { 
-        ordered ? 
+        !ordered ? 
         <div className="row">
           <div className="col-9">
             <div className="container">
