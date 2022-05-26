@@ -7,7 +7,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDc7wmh1Az0geg-D1v9wMJUPqgqGA5cgdw",
+  apiKey: process.env.API_KEY,
   authDomain: "drone-food-delivery.firebaseapp.com",
   projectId: "drone-food-delivery",
   storageBucket: "drone-food-delivery.appspot.com",
